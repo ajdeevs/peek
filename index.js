@@ -2,7 +2,7 @@
 import { Command } from "commander";
 import fs from "fs";
 import path from "path";
-import { colorizeFile } from "./color.js";
+import { colorizeFile } from "./config/color.js";
 
 const program = new Command();
 
@@ -13,7 +13,7 @@ program
   .action((options) => {
     const logPath = process.cwd();
     const files = fs.readdirSync(logPath);
-
+    console.log(options)
     files.forEach((file) => {
       if (!options.all && file.startsWith(".")) return;
       process.stdout.write(colorizeFile(file) + " ");
@@ -22,4 +22,4 @@ program
     console.log();
   });
 
-program.parse(process.argv);
+program.parse();
