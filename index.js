@@ -13,26 +13,22 @@ program
   .option("-a, --all", "List all files including hidden")
   .action((options) => {
     const logPath = process.cwd();
-    const files = fs.readdirSync(logPath);
-    const { cols, rows, colWidth } = getColumnLayout(files);
+    const allFiles = fs.readdirSync(logPath);
+    const visibleFiles = allFiles.filter(file => options.all || !file.startsWith("."));
+    const { cols, rows, colWidth } = getColumnLayout(visibleFiles);
+
     let ind=0;
     for(let i=0;i<rows;i++){
       for(let j=0;j<cols;j++){
-        if (!options.all && files[ind].startsWith(".")){ 
-          ind++;
-          continue;
-        }
-        process.stdout.write(colorizeFile(files[ind].padEnd(colWidth," ")));
+        if(ind>=visibleFiles.length){
+          console.log();
+          return;
+        } 
+        process.stdout.write(colorizeFile(visibleFiles[ind].padEnd(colWidth," ")));
         ind++;
       }
       console.log();
     }
-    // files.forEach((file) => {
-    //   if (!options.all && file.startsWith(".")) return;
-    //   process.stdout.write(colorizeFile(file) + " ");
-    // });
-
-    console.log();
   });
 
 program.parse();
