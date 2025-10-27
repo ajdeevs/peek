@@ -22,7 +22,6 @@ program
           ind++;
           continue;
         }
-        const diff=colWidth - files[ind].length;
         process.stdout.write(colorizeFile(files[ind].padEnd(colWidth," ")));
         ind++;
       }
