@@ -44,7 +44,7 @@ const COLOR_MAP = {
 };
 
 export function colorizeFile(fileName) {
-  const category = getCategory(fileName);
+  const category = getCategory(fileName.trim());
   const colorFn = COLOR_MAP[category] || COLOR_MAP.other;
   return colorFn(fileName);
 }
